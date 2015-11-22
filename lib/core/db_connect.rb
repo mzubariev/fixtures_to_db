@@ -1,5 +1,6 @@
 require 'yaml'
 require 'mysql2'
+require 'pry'
 
 # Singleton pattern
 
@@ -11,9 +12,9 @@ class DBConnect
     config = YAML.load_file('config/database.yaml')['default']
     @connect ||= Mysql2::Client.new(config)
     if config['database'].nil?
-      @connect.query('CREATE DATABASE IF NOT EXISTS rademade_test2')
-      @connect.query('ALTER DATABASE rademade_test2 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci')
-      @connect.query('USE rademade_test2')
+      @connect.query('CREATE DATABASE IF NOT EXISTS test2')
+      @connect.query('ALTER DATABASE test2 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci')
+      @connect.query('USE test2')
     else
       @connect.query("ALTER DATABASE #{config['database']} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci")
     end
@@ -24,11 +25,11 @@ class DBConnect
   end
 
   def self.destroy
-    @connect.close
     @instance = nil
   end
 
   private_class_method :new, :clone, :dup
 end
+
 
 
