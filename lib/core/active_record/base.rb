@@ -10,7 +10,7 @@ module ActiveRecord
       obj = DBConnect.instance
       @@connect = obj.connect
       @@table_name = self.class.name.downcase + 's'
-      @@connect.query("CREATE TABLE IF NOT EXISTS #{@@table_name} (#{fields_description})") unless fields_description.nil?
+      create_table(fields_description) unless fields_description.nil?
 
       # instance values initialization
       fields.each { |k, v| self.send("#{k}=", v) } unless fields.nil?
@@ -59,6 +59,10 @@ module ActiveRecord
       hash.each do |k, v|
         self.send("#{k}=", v) unless k.eql? 'id'
       end
+    end
+
+    def create_table(fields_description)
+      @@connect.query("CREATE TABLE IF NOT EXISTS #{@@table_name} (#{fields_description})")
     end
 
   end
