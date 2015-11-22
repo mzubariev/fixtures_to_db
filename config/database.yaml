@@ -1,0 +1,9 @@
+default:
+  adapter: mysql
+  encoding: utf8
+  host: 127.0.0.1
+  database:
+  username: root
+  password: 123
+  pool: 5
+  timeout: 5000
