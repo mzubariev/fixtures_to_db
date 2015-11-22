@@ -11,3 +11,9 @@ gem 'mysql2'
 
 # ini parser
 gem 'inifile'
+
+# debugger
+gem 'pry'
+
+# testing
+gem 'cucumber'
