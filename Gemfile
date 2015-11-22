@@ -17,3 +17,4 @@ gem 'pry'
 
 # testing
 gem 'cucumber'
+gem 'capybara'
