@@ -12,8 +12,8 @@ if you don't have it yet.
 4. `bundle install`
 
 5. In `/config/database.yaml` change the database settings to yours (fields: `database`, `username`, `password`).
-  - If you don't have 'posts' and 'users' tables in your database - application will make it.
-  - If you leave 'database' field empty - application will make own test database with test tables.
+  - If you don't have 'posts' and 'users' tables in your database - application will makes it.
+  - If you leave 'database' field empty - application will makes own test database with test tables.
 
 6. To fill database's tables with fixtures (application supports models: user, post; and formats: ini, json)
 run rake task with two parameters:
