@@ -1,12 +1,10 @@
 require_relative '../db_connect'
 require_relative '../../parser/parser'
-require_relative 'accessor'
 
 module ActiveRecord
   class Base
 
     include Parser
-    extend Accessor
 
     def initialize(fields = nil, fields_description = nil)
       obj = DBConnect.instance
