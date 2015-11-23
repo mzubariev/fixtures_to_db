@@ -4,19 +4,23 @@ require_relative '../../parser/parser'
 module ActiveRecord
   class Base
 
-    include Parser
+    @@connect = DBConnect.instance.connect
 
-    def initialize(fields = nil, fields_description = nil)
-      obj = DBConnect.instance
-      @@connect = obj.connect
-      @@table_name = self.class.name.downcase + 's'
-      create_table(fields_description) unless fields_description.nil?
-
+    def initialize(fields = nil)
       # instance values initialization
       fields.each { |k, v| self.send("#{k}=", v) } unless fields.nil?
     end
 
+    def id
+      @id
+    end
+
+    def id=(id)
+      @id = id
+    end
+
     def save
+      table_name = get_table_name
       vars = self.instance_variables
       keys = []
       values = []
@@ -27,42 +31,46 @@ module ActiveRecord
       end
       keys = keys.join(', ')
       values = values.collect { |x| "'#{x}'" }.join(', ')
-      @@connect.query("INSERT INTO #{@@table_name} (#{keys}) VALUES (#{values})")
+      @@connect.query("INSERT INTO #{table_name} (#{keys}) VALUES (#{values})")
     end
 
-    def save_parsed_bunch
-      @@connect.query("INSERT INTO #{@@table_name} (#{@@keys}) VALUES #{@@values}")
+    def save_parsed_bunch(data)
+      table_name = get_table_name
+      @@connect.query("INSERT INTO #{table_name} (#{data[:fields]}) VALUES #{data[:vals]}")
     end
 
-    def find(id)
-      result = @@connect.query("SELECT * FROM #{@@table_name} WHERE id = #{id} LIMIT 1")
-      result_array = result.to_a
-      set_instance_vars(result_array[0])
+    def self.find(id)
+      table_name = self.get_table_name
+      result = @@connect.query("SELECT * FROM #{table_name} WHERE id = #{id} LIMIT 1")
+      result_array = result.to_a[0]
+      self.new(result_array) unless result_array.nil?
     end
 
-    def find_by(hash)
+    def self.find_by(hash)
+      table_name = self.get_table_name
       key = hash.keys[0].to_s
       value = hash.values[0]
-      result = @@connect.query("SELECT * FROM #{@@table_name} WHERE #{key} = '#{value}'")
+      result = @@connect.query("SELECT * FROM #{table_name} WHERE #{key} = '#{value}'")
       result_array = result.to_a
-      set_instance_vars(result_array[0]) if result_array.length == 1
+      self.new(result_array[0]) if result_array.length == 1
       result_array
     end
 
-    def destroy(id)
-      @@connect.query("DELETE FROM #{@@table_name} WHERE id = #{id}")
+    def destroy()
+      table_name = get_table_name
+      @@connect.query("DELETE FROM #{table_name} WHERE id = #{@id}")
     end
 
-    private
+    protected
 
-    def set_instance_vars(hash)
-      hash.each do |k, v|
-        self.send("#{k}=", v) unless k.eql? 'id'
-      end
+    # for class methods
+    def self.get_table_name
+      self.name.downcase + 's'
     end
 
-    def create_table(fields_description)
-      @@connect.query("CREATE TABLE IF NOT EXISTS #{@@table_name} (#{fields_description})")
+    # for instance methods
+    def get_table_name
+      self.class.name.downcase + 's'
     end
 
   end

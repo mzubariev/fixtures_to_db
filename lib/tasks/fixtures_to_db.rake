@@ -5,9 +5,10 @@ task :fill do
   format = ENV['FORMAT'].strip.downcase
 
   require_relative "../models/#{model_file_name}"
+  require_relative "../parser/parser"
 
   model = Object.const_get(class_name).new
-  model.send("parse_#{format}", model_file_name)
-  model.save_parsed_bunch
+  data = Parser.send("parse_#{format}", model_file_name)
+  model.save_parsed_bunch(data)
   puts 'Done!'
 end

@@ -5,7 +5,7 @@ module Parser
 
   PATH = '../../../datafiles/fixtures/'
 
-  def parse_json(filename)
+  def self.parse_json(filename)
     data = JSON.parse(File.read(File.expand_path("#{PATH}#{filename}.json", __FILE__)))
     keys = []
     values = []
@@ -18,7 +18,7 @@ module Parser
     data_former(keys, values)
   end
 
-  def parse_ini(filename)
+  def self.parse_ini(filename)
     content = IniFile.load(File.expand_path("#{PATH}#{filename}.ini", __FILE__))
     keys = []
     values = []
@@ -31,7 +31,7 @@ module Parser
 
   private
 
-  def data_former(keys, values)
+  def self.data_former(keys, values)
     keys = keys.uniq!
     k_length = keys.length
     string_keys = keys.join(', ')
@@ -49,8 +49,7 @@ module Parser
       end
       i += k_length
     end
-    @@keys = string_keys
-    @@values = string_values
+    fields_vals = {fields: string_keys, vals: string_values}
   end
 
 end

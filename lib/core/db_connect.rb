@@ -11,13 +11,7 @@ class DBConnect
   def initialize
     config = YAML.load_file('config/database.yaml')['default']
     @connect ||= Mysql2::Client.new(config)
-    if config['database'].nil?
-      @connect.query('CREATE DATABASE IF NOT EXISTS test2')
-      @connect.query('ALTER DATABASE test2 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci')
-      @connect.query('USE test2')
-    else
-      @connect.query("ALTER DATABASE #{config['database']} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci")
-    end
+    @connect.query("ALTER DATABASE #{config['database']} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci")
   end
 
   def self.instance
