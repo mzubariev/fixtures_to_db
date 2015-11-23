@@ -5,7 +5,7 @@
 
 2. `bundle install`
 
-3. In `/config/database.yaml` change the database settings to yours (fields: `database`, `username`, `password`).
+3. In `config/database.yaml` change the database settings to yours (fields: `database`, `username`, `password`).
 
 4. To fill database's tables with fixtures (application supports models: user, post; and formats: ini, json)
 run rake task with two parameters:
