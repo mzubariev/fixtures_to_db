@@ -17,4 +17,5 @@ gem 'pry'
 
 # testing
 gem 'cucumber'
+gem 'rspec'
 gem 'capybara'
