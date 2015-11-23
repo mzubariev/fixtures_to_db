@@ -1,14 +1,48 @@
-Given(/^two input parameters$/) do
-  model = User.new
-  data = Parser.new('ParserIni', 'user').loader.parse
-  model.save_parsed_bunch(data)
+Given(/^two input parameters: 'post' and 'ini'$/) do
+  save_to_db('ParserIni', 'post')
 end
-
-When(/^I check user table for a new rows with specific added data$/) do
-  @users = User.find_by({name: 'john1'})
+When(/^I check post table for a new rows with specific added data \(ini\)$/) do
+  @users = Post.find_by({name: 'post1'})
 end
-
-Then(/^I see the rows have been added$/) do
+Then(/^I see the rows have been added \(post, ini\)$/) do
   expect(@users).not_to be_nil
   expect(@users.length).to be >= 1
 end
+
+
+Given(/^two input parameters: 'post' and 'json'$/) do
+  save_to_db('ParserJson', 'post')
+end
+When(/^I check post table for a new rows with specific added data \(json\)$/) do
+  @users = Post.find_by({name: 'post1'})
+end
+Then(/^I see the rows have been added \(post, json\)$/) do
+  expect(@users).not_to be_nil
+  expect(@users.length).to be >= 1
+end
+
+
+Given(/^two input parameters: 'user' and 'ini'$/) do
+  save_to_db('ParserIni', 'user')
+end
+When(/^I check user table for a new rows with specific added data \(ini\)$/) do
+  @users = User.find_by({name: 'john1'})
+end
+Then(/^I see the rows have been added \(user, ini\)$/) do
+  expect(@users).not_to be_nil
+  expect(@users.length).to be >= 1
+end
+
+
+Given(/^two input parameters: 'user' and 'json'$/) do
+  save_to_db('ParserJson', 'user')
+end
+When(/^I check user table for a new rows with specific added data \(json\)$/) do
+  @users = User.find_by({name: 'john1'})
+end
+Then(/^I see the rows have been added \(user, json\)$/) do
+  expect(@users).not_to be_nil
+  expect(@users.length).to be >= 1
+end
+
+
