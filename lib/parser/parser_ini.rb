@@ -1,8 +1,8 @@
 require 'inifile'
-require_relative './helpers/parser_helper'
+require_relative './helpers/data_former_helper'
 
 class ParserIni
-  include ParserHelper
+  include DataFormerHelper
 
   def initialize(path, file_name)
     @path = path
@@ -17,6 +17,7 @@ class ParserIni
       keys << parameter
       values << value
     end
-    data_preparing(keys, values)
+    data_former(keys, values)
+    output_formatted_data
   end
 end

@@ -1,8 +1,8 @@
 require 'json'
-require_relative './helpers/parser_helper'
+require_relative './helpers/data_former_helper'
 
 class ParserJson
-  include ParserHelper
+  include DataFormerHelper
 
   def initialize(path, file_name)
     @path = path
@@ -19,6 +19,7 @@ class ParserJson
         values << v
       end
     end
-    data_preparing(keys, values)
+    data_former(keys, values)
+    output_formatted_data
   end
 end
