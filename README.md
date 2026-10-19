@@ -1,27 +1,30 @@
-# Tech Assessment: Rails 4.1.1 & Angular 1.4.7 Integration
+# Custom ORM & Fixture Parser CLI
 
-This repository contains a technical assessment focused on integrating a legacy Rails backend with an Angular frontend. It features a custom command-line tool designed to parse fixtures from INI and JSON files and populate a MySQL database.
+This is a technical assessment project that implements a command-line tool to parse data fixtures from INI and JSON files and load them into a MySQL database. 
 
-## 🛠 Features & Design Constraints
-* **Custom ORM:** Implements a lightweight, custom ORM-like alternative to `ActiveRecord::Base` (the native `ActiveRecord` gem is strictly omitted).
-* **CLI Engine:** Data migration and parsing are triggered via dedicated Rake tasks.
-* **Testing:** Fully covered with automated behavior-driven and unit tests using **Cucumber** and **RSpec**.
+The core constraint of this project was to avoid using the native `ActiveRecord` gem, so it features a custom-built, lightweight **ORM-like engine** modeled after `ActiveRecord::Base`.
 
-## 🚀 Prerequisites & Requirements
+## 🛠 Features & Architecture
+* **Custom ORM:** Implements basic database mapping and operations without relying on the standard Rails ActiveRecord.
+* **CLI Interface:** Built as a standalone console utility triggered via Rake tasks.
+* **Format Support:** Robust parsing for both `ini` and `json` data structures.
+* **Dual-Layer Testing:** Comprehensive test coverage using **RSpec** for unit testing and **Cucumber** for behavior-driven integration tests.
+
+## 🚀 Requirements & Environment
 * **Ruby version:** `2.2.1`
-* **Database:** MySQL (requires two existing tables: `users` and `posts`)
-* **Supported Models:** `user`, `post`
+* **Database:** MySQL 
+* **Supported Models:** `user`, `post` (requires pre-existing `users` and `posts` tables)
 * **Supported Formats:** `ini`, `json`
 
-## ⚙️ Setting Up the Project
+## ⚙️ Installation & Setup
 
 1. **Install dependencies:**
    ```bash
    bundle install
    ```
 
-2. **Configure the database:**
-   Open `config/database.yaml` and update the connection settings with your local MySQL credentials:
+2. **Configure Database Connection:**
+   Open `config/database.yaml` and update the settings with your local MySQL credentials:
    ```yaml
    database: your_database_name
    username: your_username
@@ -30,7 +33,7 @@ This repository contains a technical assessment focused on integrating a legacy 
 
 ## 📦 Usage
 
-To parse fixtures and fill the database tables, run the custom Rake task by specifying the target `MODEL` and `FORMAT` parameters:
+To parse fixtures and populate the database tables, run the `fill` Rake task with the required `MODEL` and `FORMAT` environment variables:
 
 ```bash
 rake fill MODEL=user FORMAT=ini
@@ -38,13 +41,13 @@ rake fill MODEL=user FORMAT=ini
 
 ## 🧪 Running Tests
 
-The application uses a dual-testing strategy to ensure data integrity and proper command execution.
+The project is fully covered by automated tests. You can run them using the following commands:
 
-* **To run unit tests (RSpec):**
+* **Run Unit Tests (RSpec):**
   ```bash
   bundle exec rspec
   ```
-* **To run integration/acceptance tests (Cucumber):**
+* **Run Integration/Acceptance Tests (Cucumber):**
   ```bash
   bundle exec cucumber
   ```
